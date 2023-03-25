@@ -49,11 +49,11 @@ export class Colling implements ICommand {
 
             this.timoutId = this.startTimer()
 
-            this.intervalId = setInterval(async () => {
-                await this.editMessage(ctx)
-
-                this.swapSymbol()
-            }, 600)
+            // this.intervalId = setInterval(async () => {
+            //     await this.editMessage(ctx)
+            //
+            //     this.swapSymbol()
+            // }, 600)
         })
     }
 
