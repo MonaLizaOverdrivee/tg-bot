@@ -9,7 +9,7 @@ export class Colling implements ICommand {
     STATUS_PENDING = 0
     STATUS_ACTIVE = 1
     public description = 'Проветрить конфу, отключается через 8 сек'
-    public name = 'colling';
+    public name = 'cooling';
     timoutId: NodeJS.Timeout
     intervalId: NodeJS.Timer
     currentSymbol = String.fromCharCode(21325)
@@ -36,7 +36,7 @@ export class Colling implements ICommand {
             clearTimeout(this.timoutId)
             clearInterval(this.intervalId)
 
-            if (!this.allowChatIds.includes(ctx.message.chat.id)) {
+            if (!this.allowChatIds.includes(Math.abs(ctx.message.chat.id))) {
                 return await ctx.reply('пошел нахуй, нет такой команды')
             }
             if (this.status === this.STATUS_ACTIVE) {
