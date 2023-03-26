@@ -37,21 +37,17 @@ export class Cooling implements ICommand {
                 return await ctx.reply('пошел нахуй, нет такой команды')
             }
 
-            if (this.status === this.STATUS_ACTIVE) {
-                return await ctx.reply(`@${ctx.from.username} не прошел идеалогическую проверку, поэтому он идет нахуй`)
-            }
-
             this.increasedCurrentStep()
 
             await this.sendMessage(ctx)
 
             this.timoutId = this.startTimer()
 
-            // this.intervalId = setInterval(async () => {
-            //     await this.editMessage(ctx)
-            //
-            //     this.swapSymbol()
-            // }, 600)
+            this.intervalId = setInterval(async () => {
+                await this.editMessage(ctx)
+
+                this.swapSymbol()
+            }, 600)
         })
     }
 
@@ -82,7 +78,9 @@ export class Cooling implements ICommand {
 
         const text = this.currentSymbol.repeat(this.currentStep).replaceAll(this.currentSymbol, this.replaceSymbol)
 
-        await context.telegram.editMessageText(this.chatId, this.lastMessageId, undefined, text)
+        try {
+            await context.telegram.editMessageText(this.chatId, this.lastMessageId, undefined, text)
+        } catch {}
 
         this.status = this.STATUS_PENDING
     }
