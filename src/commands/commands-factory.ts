@@ -3,7 +3,7 @@ import {BotPort} from "../ports";
 import {PickCommand} from './pick'
 import {IProvisioningService, ProvisioningService} from "../services";
 import {Checkiq} from "./checkiq";
-import {Colling} from "./colling";
+import {Cooling} from "./cooling";
 
 export class CommandsFactory implements ICommandsFactory {
     private readonly commands: ICommand[]
@@ -13,7 +13,7 @@ export class CommandsFactory implements ICommandsFactory {
         this.commands = [
             new PickCommand(this.bot),
             new Checkiq(this.bot),
-            new Colling(this.bot)
+            new Cooling(this.bot)
         ]
 
         this.provisioningService = ProvisioningService

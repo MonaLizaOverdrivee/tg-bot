@@ -1,10 +1,10 @@
 import {ICommand} from "./interfaces";
 import {BotPort} from "../ports";
-import {Context} from "telegraf";
+import {Context, Markup} from "telegraf";
 import {PermissionService} from "../services";
 import type {IPermissionService} from "../services";
 
-export class Colling implements ICommand {
+export class Cooling implements ICommand {
     permissionService: IPermissionService
     STATUS_PENDING = 0
     STATUS_ACTIVE = 1
@@ -23,24 +23,22 @@ export class Colling implements ICommand {
     constructor(private readonly bot: BotPort) {
         this.permissionService = new PermissionService()
 
-
-       void new Promise(async (res) => {
-           const {allowedChatIds} = await this.permissionService.getAllowedChatIds();
-
-           res(allowedChatIds)
-       }).then(data => this.allowChatIds = data)
+        this.permissionService.getAllowedChatIds().then(({allowedChatIds}) => this.allowChatIds = allowedChatIds)
     }
 
     initCommand(): void {
         this.bot.command(this.name, async (ctx) => {
+            this.currentSymbol = String.fromCharCode(21325)
+            this.replaceSymbol = String.fromCharCode(21328)
             clearTimeout(this.timoutId)
             clearInterval(this.intervalId)
 
             if (!this.allowChatIds.includes(Math.abs(ctx.message.chat.id))) {
                 return await ctx.reply('пошел нахуй, нет такой команды')
             }
+
             if (this.status === this.STATUS_ACTIVE) {
-                return await ctx.reply('пошел нахуй, я еще не докрутил предыдущий вентилятор')
+                return await ctx.reply(`@${ctx.from.username} не прошел идеалогическую проверку, поэтому он идет нахуй`)
             }
 
             this.increasedCurrentStep()
@@ -49,19 +47,19 @@ export class Colling implements ICommand {
 
             this.timoutId = this.startTimer()
 
-            // this.intervalId = setInterval(async () => {
-            //     await this.editMessage(ctx)
-            //
-            //     this.swapSymbol()
-            // }, 600)
+            this.intervalId = setInterval(async () => {
+                await this.editMessage(ctx)
+
+                this.swapSymbol()
+            }, 600)
         })
     }
 
     startTimer() {
-        return setTimeout(this.clearState.bind(this), 8000)
+        return setTimeout(this.setDefaultState.bind(this), 8000)
     }
 
-    clearState() {
+    setDefaultState() {
         clearTimeout(this.timoutId)
         clearInterval(this.intervalId)
         this.currentStep = 0
