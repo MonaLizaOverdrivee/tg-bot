@@ -44,6 +44,16 @@ export class ProfanityBuilder implements IProfanityService{
         return this;
     }
 
+    addVerb() {
+        const {verb} = this.profanityRepository.getDictionary().masculine
+        const size = this.getSize(verb);
+        const randomIndex = this.getRandomIndex(size);
+
+        this.profanity.push(verb[randomIndex]);
+
+        return this
+    }
+
     getProfanity() {
         const resultProfanity = this.profanity.join(" ");
 

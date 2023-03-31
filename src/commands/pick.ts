@@ -2,8 +2,10 @@ import {BotPort} from '../ports'
 import {IProfanityService} from "../services/profanity-builder/interface";
 import {ProfanityBuilder} from "../services/profanity-builder/builder";
 import {getCommandArguments} from "../utils/get-command-arguments";
-export class PickCommand {
+import {ICommand} from "./interfaces";
+export class PickCommand implements ICommand{
     public name = 'pick'
+    public readonly type = 'public'
     public description = '@UserName Вежливо позвать друга'
     private readonly profanityService: IProfanityService
     constructor(private readonly bot: BotPort) {

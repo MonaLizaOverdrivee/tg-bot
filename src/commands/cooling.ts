@@ -1,54 +1,56 @@
 import {ICommand} from "./interfaces";
 import {BotPort} from "../ports";
-import {Context, Markup} from "telegraf";
-import {PermissionService} from "../services";
-import type {IPermissionService} from "../services";
+import {Context} from "telegraf";
+import type {ILogger, IProfanityService} from "../services";
+import {ProfanityBuilder, Logger} from "../services"
 
 export class Cooling implements ICommand {
-    permissionService: IPermissionService
+    private logger: ILogger
+    private profanityService: IProfanityService
     STATUS_PENDING = 0
     STATUS_ACTIVE = 1
     public description = 'Проветрить конфу, отключается через 8 сек'
-    public name = 'cooling';
+    public name = 'cooling'
+    public readonly type = 'private'
     timoutId: NodeJS.Timeout
     intervalId: NodeJS.Timer
     currentSymbol = String.fromCharCode(21325)
     replaceSymbol = String.fromCharCode(21328)
-    currentStep = 0
+    currentStep = 1
     lastMessageId: number
     chatId: number
     status: number = this.STATUS_PENDING
-    allowChatIds: []
 
     constructor(private readonly bot: BotPort) {
-        this.permissionService = new PermissionService()
-
-        this.permissionService.getAllowedChatIds().then(({allowedChatIds}) => this.allowChatIds = allowedChatIds)
+        this.logger = new Logger()
+        this.profanityService = new ProfanityBuilder()
     }
 
     initCommand(): void {
-        this.bot.command(this.name, async (ctx) => {
-            this.currentSymbol = String.fromCharCode(21325)
-            this.replaceSymbol = String.fromCharCode(21328)
-            clearTimeout(this.timoutId)
-            clearInterval(this.intervalId)
+        this.bot.command(this.name, this.executeCommand.bind(this))
+    }
 
-            if (!this.allowChatIds.includes(Math.abs(ctx.message.chat.id))) {
-                return await ctx.reply('пошел нахуй, нет такой команды')
-            }
+    async executeCommand(ctx: Context) {
+        this.currentSymbol = String.fromCharCode(21325)
+        this.replaceSymbol = String.fromCharCode(21328)
+        clearTimeout(this.timoutId)
+        clearInterval(this.intervalId)
 
-            this.increasedCurrentStep()
+        if (this.status === this.STATUS_ACTIVE) {
+            return await ctx.reply(this.failedMessage)
+        }
 
-            await this.sendMessage(ctx)
+        this.increasedCurrentStep()
 
-            this.timoutId = this.startTimer()
+        await this.sendMessage(ctx)
 
-            // this.intervalId = setInterval(async () => {
-            //     await this.editMessage(ctx)
-            //
-            //     this.swapSymbol()
-            // }, 600)
-        })
+        this.timoutId = this.startTimer()
+
+        this.intervalId = setInterval(async () => {
+            await this.editMessage(ctx)
+
+            this.swapSymbol()
+        }, 800)
     }
 
     startTimer() {
@@ -58,10 +60,11 @@ export class Cooling implements ICommand {
     setDefaultState() {
         clearTimeout(this.timoutId)
         clearInterval(this.intervalId)
-        this.currentStep = 0
+        this.currentStep = 1
 
         this.currentSymbol = String.fromCharCode(21325)
         this.replaceSymbol = String.fromCharCode(21328)
+        this.status = this.STATUS_PENDING
     }
 
     async sendMessage(context: Context) {
@@ -80,9 +83,16 @@ export class Cooling implements ICommand {
 
         try {
             await context.telegram.editMessageText(this.chatId, this.lastMessageId, undefined, text)
-        } catch {}
+        } catch (error) {
+            // @ts-ignore
+            this.logger.warning(error?.response.description)
 
-        this.status = this.STATUS_PENDING
+            clearInterval(this.intervalId)
+        } finally {
+            this.status = this.STATUS_PENDING
+        }
+
+
     }
 
     swapSymbol() {
@@ -93,7 +103,17 @@ export class Cooling implements ICommand {
     }
 
     increasedCurrentStep() {
-        this.currentStep += 3
+        this.currentStep += 8
+    }
+
+    get failedMessage() {
+        const message = this.profanityService
+            .addVerb()
+            .addAdjective()
+            .addNoun()
+            .getProfanity()
+
+        return message
     }
 
 }

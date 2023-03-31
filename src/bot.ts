@@ -4,6 +4,8 @@ import type {IConfigInterface} from './services'
 import type {ICommandsFactory} from './commands'
 import {CommandsFactory} from "./commands/commands-factory"
 import {ConfigService} from "./services";
+import {CommandsAccessMiddleware, Middleware} from "./middleware";
+import {ErrorCatcher} from "./middleware/error-catcher";
 
 
 export class Bot {
@@ -39,7 +41,20 @@ export class Bot {
         await this.bot.telegram.setMyCommands(commandsDescription)
     }
 
+    useMiddleware() {
+        const middlewares: Middleware[] = [
+            new CommandsAccessMiddleware(this.commandsService.getCommands(), this.bot),
+            new ErrorCatcher(this.bot),
+        ]
+
+        middlewares.forEach((middleware) => {
+            middleware.execute()
+        })
+    }
+
     async start() {
+        this.useMiddleware()
+
         await this.initCommands()
 
         await this.addCommandsDescription()

@@ -1,11 +1,15 @@
 import * as dictionary from '../../provisioning/dictionary.json'
 import {Dictionary} from '../../provisioning/types'
 import type {IProvisioningService} from "./interface";
+import {ILogger, Logger} from "../logger";
 
 class ProvisioningService implements IProvisioningService{
     private readonly dictionary: Dictionary
+    private logger: ILogger
     constructor() {
         this.dictionary = dictionary as Dictionary
+
+        this.logger = new Logger()
 
         this.isValidProvisioning()
     }
@@ -25,9 +29,9 @@ class ProvisioningService implements IProvisioningService{
         const isValidDictionary = requiredKeys.every((key) => Object.keys(this.dictionary).includes(key))
 
         if (!isValidDictionary) {
-            console.log('[ProvisioningService] Неправильный словарь')
+            this.logger.error('[ProvisioningService] Неправильный словарь')
         } else {
-            console.log('[ProvisioningService] Статические ресурсы подключены')
+            this.logger.info('[ProvisioningService] Статические ресурсы подключены')
         }
     }
 }

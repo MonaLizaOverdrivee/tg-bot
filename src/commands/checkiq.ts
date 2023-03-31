@@ -4,6 +4,7 @@ import {getCommandArguments} from "../utils/get-command-arguments";
 
 export class Checkiq implements ICommand {
     public name = 'checkiq'
+    public readonly type = 'public'
     public description = '@UserName проерит твой iq или твоего друга'
 
     constructor(private readonly bot: BotPort) {

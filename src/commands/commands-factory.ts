@@ -28,7 +28,8 @@ export class CommandsFactory implements ICommandsFactory {
         const commands = Object.keys(localCommands).map((key) => ({
             initCommand: () => this.bot.command(key, localCommands[key].handler),
             name: key,
-            description: localCommands[key].description
+            description: localCommands[key].description,
+            type: 'public' as const
         }))
 
         return commands

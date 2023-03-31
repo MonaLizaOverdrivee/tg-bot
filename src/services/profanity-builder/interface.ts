@@ -7,6 +7,7 @@ export interface IProfanityService {
     addCustomPhrase: (phrase: string) => this
     getProfanity: () => string
 
+    addVerb: () => this
 }
 
 export interface IProfanityRepository {

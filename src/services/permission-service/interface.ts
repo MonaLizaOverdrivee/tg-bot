@@ -1,3 +1,7 @@
+export interface AllowedChatIds {
+    allowedChatIds: number[]
+}
+
 export interface IPermissionService {
-    getAllowedChatIds: () => Promise<unknown>
+    getAllowedChatIds: () => Promise<AllowedChatIds>
 }
