@@ -31,14 +31,15 @@ export class Cooling implements ICommand {
     }
 
     async executeCommand(ctx: Context) {
-        this.currentSymbol = String.fromCharCode(21325)
-        this.replaceSymbol = String.fromCharCode(21328)
-        clearTimeout(this.timoutId)
-        clearInterval(this.intervalId)
-
         if (this.status === this.STATUS_ACTIVE) {
             return await ctx.reply(this.failedMessage)
         }
+
+        clearTimeout(this.timoutId)
+        clearInterval(this.intervalId)
+        this.currentSymbol = String.fromCharCode(21325)
+
+        this.replaceSymbol = String.fromCharCode(21328)
 
         this.increasedCurrentStep()
 
