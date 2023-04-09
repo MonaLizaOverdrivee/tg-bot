@@ -25,6 +25,10 @@ export class CommandsFactory implements ICommandsFactory {
     async getLocalCommands() {
         const localCommands = await this.provisioningService.getLocalCommands() as Record<string, {handler: () => void; name: string; description: string}>
 
+        if (Object.keys(localCommands).length === 0) {
+            return []
+        }
+
         const commands = Object.keys(localCommands).map((key) => ({
             initCommand: () => this.bot.command(key, localCommands[key].handler),
             name: key,

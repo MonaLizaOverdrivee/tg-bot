@@ -26,9 +26,14 @@ class ProvisioningService implements IProvisioningService{
     }
 
     public async getLocalCommands() {
+        try {
+
         const {localCommands} = await import('../../provisioning/local.commands')
 
         return localCommands
+        } catch {
+            return {}
+        }
     }
 
     private isValidProvisioning() {
