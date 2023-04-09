@@ -1,9 +1,17 @@
-import {AllowedChatIds, IPermissionService} from "./interface";
+import type {AllowedChatIdsResponse, IPermissionService} from './interface'
+import type {IHttpClient} from '../http-service'
+import type {AllowedChatIds} from '../../types'
+import {HttpService} from '../http-service/index.js'
 
 export class PermissionService implements IPermissionService{
+    private httpClient: IHttpClient
+    constructor() {
+        this.httpClient = new HttpService({baseURL: 'https://gist.githubusercontent.com/MonaLizaOverdrivee/853783981989ef5c3d629b15d0870564/raw/'})
+    }
     async getAllowedChatIds(): Promise<AllowedChatIds> {
-        const response =  await fetch('https://gist.githubusercontent.com/MonaLizaOverdrivee/853783981989ef5c3d629b15d0870564/raw/f265d545d0a18820951618b70beae2d088010981/permissions.json')
+        const {data: {allowedChatIds}} = await this.httpClient.get<AllowedChatIdsResponse>()
 
-        return await response.json()
+        return allowedChatIds
     }
 }
+

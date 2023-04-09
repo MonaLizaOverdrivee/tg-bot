@@ -38,7 +38,6 @@ export class Cooling implements ICommand {
         clearTimeout(this.timoutId)
         clearInterval(this.intervalId)
         this.currentSymbol = String.fromCharCode(21325)
-
         this.replaceSymbol = String.fromCharCode(21328)
 
         this.increasedCurrentStep()
@@ -47,11 +46,11 @@ export class Cooling implements ICommand {
 
         this.timoutId = this.startTimer()
 
-        this.intervalId = setInterval(async () => {
-            await this.editMessage(ctx)
-
-            this.swapSymbol()
-        }, 800)
+        // this.intervalId = setInterval(async () => {
+        //     await this.editMessage(ctx)
+        //
+        //     this.swapSymbol()
+        // }, 800)
     }
 
     startTimer() {
@@ -62,9 +61,6 @@ export class Cooling implements ICommand {
         clearTimeout(this.timoutId)
         clearInterval(this.intervalId)
         this.currentStep = 1
-
-        this.currentSymbol = String.fromCharCode(21325)
-        this.replaceSymbol = String.fromCharCode(21328)
         this.status = this.STATUS_PENDING
     }
 
@@ -78,17 +74,17 @@ export class Cooling implements ICommand {
         this.chatId = id
     }
     async editMessage(context: Context) {
-        this.status = this.STATUS_ACTIVE
-
-        const text = this.currentSymbol.repeat(this.currentStep).replaceAll(this.currentSymbol, this.replaceSymbol)
 
         try {
+            this.status = this.STATUS_ACTIVE
+
+            const text = this.currentSymbol.repeat(this.currentStep).replaceAll(this.currentSymbol, this.replaceSymbol)
+
             await context.telegram.editMessageText(this.chatId, this.lastMessageId, undefined, text)
         } catch (error) {
             // @ts-ignore
             this.logger.warning(error?.response.description)
 
-            clearInterval(this.intervalId)
         } finally {
             this.status = this.STATUS_PENDING
         }

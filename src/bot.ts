@@ -2,10 +2,10 @@ import {Telegraf} from 'telegraf'
 import {BotPort} from './ports'
 import type {IConfigInterface} from './services'
 import type {ICommandsFactory} from './commands'
-import {CommandsFactory} from "./commands/commands-factory"
-import {ConfigService} from "./services";
-import {CommandsAccessMiddleware, Middleware} from "./middleware";
-import {ErrorCatcher} from "./middleware/error-catcher";
+import {CommandsFactory} from './commands/index.js'
+import {ConfigService} from "./services/index.js";
+import {CommandsAccessMiddleware, ErrorCatcher} from "./middleware";
+import type {Middleware} from "./middleware";
 
 
 export class Bot {
@@ -60,6 +60,7 @@ export class Bot {
         await this.addCommandsDescription()
 
         await this.bot.launch()
+
         console.log('[tg-bot] Server success started!')
     }
 }

@@ -1,6 +1,6 @@
 import {BotPort} from '../ports'
-import {IProfanityService} from "../services/profanity-builder/interface";
-import {ProfanityBuilder} from "../services/profanity-builder/builder";
+import type {IProfanityService} from "../services";
+import {ProfanityBuilder} from "../services";
 import {getCommandArguments} from "../utils/get-command-arguments";
 import {ICommand} from "./interfaces";
 export class PickCommand implements ICommand{

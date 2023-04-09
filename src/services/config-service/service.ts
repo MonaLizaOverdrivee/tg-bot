@@ -8,6 +8,26 @@ export class ConfigService implements IConfigInterface{
     constructor() {
         this.logger = new Logger()
 
+        this.config = this.isProd() ? this.getProdEnv() : this.getDevEnv() ?? {}
+    }
+
+    get(key: string) {
+        return this.config[key]
+    }
+
+    getProdEnv(): DotenvParseOutput {
+        const config: {[key: string]: string} = {}
+
+        for (const key in process.env) {
+            config[key] = process.env[key]!.trim()
+        }
+
+        this.logger.info('[ConfigService] переменные окружения успешно инициализированы')
+
+        return config
+    }
+
+    getDevEnv(): DotenvParseOutput | undefined {
         const {error, parsed} = config()
 
         if (error) {
@@ -19,11 +39,15 @@ export class ConfigService implements IConfigInterface{
         if (parsed) {
             this.logger.info('[ConfigService] .env файл успешно инициализирован')
 
-            this.config = parsed
+            return  parsed
         }
     }
 
-    get(key: string) {
-        return this.config[key]
+    isProd(): boolean {
+        if (process.env.NODE_ENV === undefined) {
+            process.env.NODE_ENV = 'dev'
+        }
+
+        return process.env.NODE_ENV === 'prod'
     }
 }

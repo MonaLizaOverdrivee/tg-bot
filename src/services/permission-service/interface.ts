@@ -1,5 +1,7 @@
-export interface AllowedChatIds {
-    allowedChatIds: number[]
+import {AllowedChatIds} from '../../types'
+
+export interface AllowedChatIdsResponse {
+    allowedChatIds: AllowedChatIds
 }
 
 export interface IPermissionService {

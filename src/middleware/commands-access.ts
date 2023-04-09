@@ -4,22 +4,23 @@ import {Middleware} from './interface'
 import type {Message, MessageEntity} from '@grammyjs/types'
 import {PermissionService} from "../services";
 import type {IPermissionService} from "../services";
+import {AllowedChatIds} from '../types'
 
 export class CommandsAccessMiddleware implements Middleware{
-    private readonly COMMAND_REG_EXP = /^\/([^ ]+)/
+    private readonly COMMAND_REG_EXP = /^\/([^ |@]+)/
 
     private commands: Pick<ICommand, 'type' | 'name'>[]
 
     private permissionService: IPermissionService
 
-    private allowedChatIds: number[]
+    private allowedChatIds: AllowedChatIds
 
     constructor(commands: ICommand[], private readonly bot: BotPort) {
         this.parseCommands(commands)
 
         this.permissionService = new PermissionService()
 
-        this.permissionService.getAllowedChatIds().then(({allowedChatIds}) => this.allowedChatIds = allowedChatIds)
+        this.permissionService.getAllowedChatIds().then((allowedChatIds) => this.allowedChatIds = allowedChatIds)
     }
 
     private parseCommands(commands: ICommand[]) {
@@ -43,7 +44,7 @@ export class CommandsAccessMiddleware implements Middleware{
     checkPublicType(text: string | undefined = '') {
         const [, command] = this.COMMAND_REG_EXP.exec(text) ?? []
 
-        const {type = 'public'} = this.commands.find(({name}) => name === command) ?? {}
+        const {type} = this.commands.find(({name}) => name === command) ?? {}
 
         return type === 'public'
     }
@@ -55,7 +56,7 @@ export class CommandsAccessMiddleware implements Middleware{
     }
 
     checkAccess(message: Message): boolean {
-        const isCommand = this.checkCommand(message.entities)
+        const isCommand = this.checkCommand(message?.entities)
         const isPublic = this.checkPublicType(message.text)
         const isAccess = !isCommand || isPublic
 

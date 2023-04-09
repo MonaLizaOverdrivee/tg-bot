@@ -1,17 +1,25 @@
-import * as dictionary from '../../provisioning/dictionary.json'
 import {Dictionary} from '../../provisioning/types'
 import type {IProvisioningService} from "./interface";
 import {ILogger, Logger} from "../logger";
+import type {IHttpClient} from '../http-service'
+import {HttpService} from '../http-service'
 
 class ProvisioningService implements IProvisioningService{
-    private readonly dictionary: Dictionary
+    private dictionary: Dictionary
     private logger: ILogger
+    private readonly httpClient: IHttpClient
     constructor() {
-        this.dictionary = dictionary as Dictionary
-
+        this.httpClient = new HttpService({baseURL: 'https://gist.githubusercontent.com/MonaLizaOverdrivee/6f04aace8b8c477d08203ec0909d0d9d/raw/'})
         this.logger = new Logger()
 
-        this.isValidProvisioning()
+        this.httpClient.get<Dictionary>().then(({data: dictionary}) => {
+            this.dictionary = dictionary
+
+            this.isValidProvisioning()
+        })
+
+
+
     }
     public getDictionary() {
         return this.dictionary
