@@ -28,7 +28,8 @@ class ProvisioningService implements IProvisioningService{
     public async getLocalCommands() {
         try {
 
-        const {localCommands} = await import('../../provisioning/local.commands')
+        // @ts-ignore
+            const {localCommands} = await import('../../provisioning/local.commandss')
 
         return localCommands
         } catch {
