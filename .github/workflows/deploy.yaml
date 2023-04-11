@@ -7,8 +7,8 @@ env:
   IMAGE_NAME: ghcr.io/monalizaoverdrivee/unmannered-bot/unmannered-bot:prod
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 jobs:
-  name: Build
-  runs-on: ubuntu-latest
-  steps:
-    - name: Get repo code
-      run: echo "${{ env.DOCKER_USERNAME}}"
+  - name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repo code
+        run: echo "${{ env.DOCKER_USERNAME}}"
