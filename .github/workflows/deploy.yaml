@@ -21,7 +21,7 @@ jobs:
           password: ${{ env.DOCKER_PASSWORD }}
       - name: Build container
         run: |
-          docker build -t $IMAGE_NAME
+          docker build -t $IMAGE_NAME .
       - name: Push image
         run: |
           docker push $IMAGE_NAME
