@@ -5,7 +5,8 @@ on:
       - master
 env:
   IMAGE_NAME: ghcr.io/monalizaoverdrivee/unmannered-bot/unmannered-bot:prod
-  DOCKER_USERNAME: ${{ secrets.DOCKER_ }}
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 jobs:
   build:
     runs-on: ubuntu-latest
