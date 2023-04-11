@@ -22,7 +22,7 @@ export class ConfigService implements IConfigInterface{
             config[key] = process.env[key]!.trim()
         }
 
-        this.logger.info('[ConfigService] переменные окружения успешно инициализированы')
+        this.logger.info('[ConfigService] Переменные окружения успешно инициализированы')
 
         return config
     }
@@ -48,6 +48,6 @@ export class ConfigService implements IConfigInterface{
             process.env.NODE_ENV = 'dev'
         }
 
-        return process.env.NODE_ENV === 'prod'
+        return process.env.NODE_ENV === 'production'
     }
 }
