@@ -57,7 +57,7 @@ export class Bot {
 
         await this.initCommands()
 
-        await this.addCommandsDescription()
+        // await this.addCommandsDescription()
 
         await this.bot.launch()
 
