@@ -9,7 +9,7 @@ RUN npm run build
 FROM node:18-alpine
 ARG BOT_TOKEN
 ENV NODE_ENV="production"
-ENV TOKEN=BOT_TOKEN
+ENV TOKEN=$BOT_TOKEN
 WORKDIR /app
 COPY --from=build /app/dist .
 COPY package*.json ./
