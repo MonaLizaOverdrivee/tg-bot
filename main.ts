@@ -1,6 +1,6 @@
 import {Bot} from './src/bot'
 
-console.log('start !!!')
+console.log(process.env.TOKEN)
 const bootstrap = async () => {
     const bot = new Bot()
 
