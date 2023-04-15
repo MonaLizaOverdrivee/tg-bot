@@ -45,4 +45,4 @@ jobs:
           script: |
             docker compose -f /home/unmannered-bot/docker-compose.yml pull
             docker compose -f /home/unmannered-bot/docker-compose.yml up --force-recreate -d
-            docker images prune -f
+            docker image prune -f

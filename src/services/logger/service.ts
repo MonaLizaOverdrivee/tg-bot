@@ -22,7 +22,7 @@ export class Logger implements ILogger{
         this.logger.error(message)
     }
 
-    info(message: string): void {
+    info(message: any): void {
         this.logger.info(message)
     }
 

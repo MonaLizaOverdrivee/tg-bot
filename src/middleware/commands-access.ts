@@ -2,8 +2,8 @@ import {ICommand} from "../commands";
 import {BotPort} from "../ports";
 import {Middleware} from './interface'
 import type {Message, MessageEntity} from '@grammyjs/types'
-import {PermissionService} from "../services";
-import type {IPermissionService} from "../services";
+import {Logger, PermissionService} from '../services'
+import type {IPermissionService, ILogger} from "../services";
 import {AllowedChatIds} from '../types'
 
 export class CommandsAccessMiddleware implements Middleware{
@@ -15,7 +15,11 @@ export class CommandsAccessMiddleware implements Middleware{
 
     private allowedChatIds: AllowedChatIds
 
+    private logger: ILogger
+
     constructor(commands: ICommand[], private readonly bot: BotPort) {
+        this.logger = new Logger()
+
         this.parseCommands(commands)
 
         this.permissionService = new PermissionService()
@@ -59,11 +63,15 @@ export class CommandsAccessMiddleware implements Middleware{
         const isCommand = this.checkCommand(message?.entities)
         const isPublic = this.checkPublicType(message.text)
         const isAccess = !isCommand || isPublic
+        this.logger.info(this.allowedChatIds.join(' '))
+        this.logger.info(Math.abs(message.chat.id))
+        this.logger.info(`allowed ${this.allowedChatIds.includes(Math.abs(message.chat.id))}`)
+        this.logger.info(`isCommand ${isCommand}`)
+        this.logger.info(`isPublic ${isPublic}`)
 
         if (isAccess) {
             return true
         }
-
         return this.allowedChatIds.includes(Math.abs(message.chat.id))
     }
 }
