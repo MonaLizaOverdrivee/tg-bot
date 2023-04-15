@@ -43,5 +43,6 @@ jobs:
           host: ${{ env.HOST }}
           username: root
           script: |
-            cd /home/unmannered-bot
-            ls -l
+            docker compose -f /home/unmannered-bot/docker-compose.yml pull
+            docker compose -f /home/unmannered-bot/docker-compose.yml up --force-recreate -d
+            docker images prune -f
