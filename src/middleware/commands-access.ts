@@ -63,15 +63,19 @@ export class CommandsAccessMiddleware implements Middleware{
         const isCommand = this.checkCommand(message?.entities)
         const isPublic = this.checkPublicType(message.text)
         const isAccess = !isCommand || isPublic
-        this.logger.info(this.allowedChatIds.join(' '))
-        this.logger.info(Math.abs(message.chat.id))
-        this.logger.info(`allowed ${this.allowedChatIds.includes(Math.abs(message.chat.id))}`)
-        this.logger.info(`isCommand ${isCommand}`)
-        this.logger.info(`isPublic ${isPublic}`)
+
+        console.log({
+            allowedIds: this.allowedChatIds,
+            chatId: Math.abs(message.chat.id),
+            isCommand,
+            isPublic,
+            allowed: this.allowedChatIds.includes(Math.abs(message.chat.id))
+        })
 
         if (isAccess) {
             return true
         }
+
         return this.allowedChatIds.includes(Math.abs(message.chat.id))
     }
 }
