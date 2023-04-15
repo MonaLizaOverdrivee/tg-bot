@@ -42,6 +42,6 @@ jobs:
         with:
           host: ${{ env.HOST }}
           username: root
-        script: |
-          cd /home
-          ls -l
+          script: |
+            cd /home
+            ls -l
