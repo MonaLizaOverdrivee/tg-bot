@@ -12,7 +12,7 @@ export class SimpleCommands {
         {
             initCommand: () => this.replyText('baza', 'Пах чмо'),
             name: 'baza',
-            description: 'Выдать базу',
+            description: 'Выдать базу по паху',
             type: 'private',
         },
         {

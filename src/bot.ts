@@ -30,6 +30,14 @@ export class Bot {
         for (const command of [...commands, ...localCommand]) {
             command.initCommand()
         }
+
+        const release = '*Release:* 1.0!'
+        const lastUpdate = '*Last update*: \n - Добавлена команда /bazaj - выдать базу по жк \n - Теперь бот доступен 24/7'
+        const commandsDescription = `*Commands*:\n${this.commandsService.getCommands().map(({name, description}) =>  `/${name} - ${description}`).join('\n')}`
+
+        this.bot.help((ctx) => {
+            ctx.replyWithMarkdown(`${release}\n\n${lastUpdate}\n\n${commandsDescription}`)
+        })
     }
 
     async addCommandsDescription() {
