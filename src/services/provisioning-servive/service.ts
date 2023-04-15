@@ -29,7 +29,7 @@ class ProvisioningService implements IProvisioningService{
         try {
 
         // @ts-ignore
-            const {localCommands} = await import('../../provisioning/local.commandss')
+            const {localCommands} = await import('../../provisioning/local.commands')
 
         return localCommands
         } catch {

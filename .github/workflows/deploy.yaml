@@ -8,6 +8,8 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   BOT_TOKEN: ${{ secrets.TOKEN }}
+  SSH_KEY: ${{ secrets.SSH_KEY }}
+  HOST: ${{ secrets.HOST }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,3 +28,10 @@ jobs:
       - name: Push image
         run: |
           docker-compose push
+      - name: Set SSH
+        use: shimataro/ssh-key-action@v2
+        withs:
+          key: ${{ env.SSH_KEY }}
+          known_hosts: ${{ env.HOST }}
+      - name: rsync
+        run: rsync docker-compose.yml root@${{ env.HOST }}:/home/unmannered-bot/
