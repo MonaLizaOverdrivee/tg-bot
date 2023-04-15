@@ -41,6 +41,11 @@ export class CommandsAccessMiddleware implements Middleware{
                 return
             }
 
+            this.logger.error({err: {
+                    type: 'access',
+                    allowedIds: this.allowedChatIds,
+                    chatId: context?.chat?.id,
+                }})
 
             await context.reply('пошел нахуй, нет такой команды')
         })
@@ -63,14 +68,6 @@ export class CommandsAccessMiddleware implements Middleware{
         const isCommand = this.checkCommand(message?.entities)
         const isPublic = this.checkPublicType(message.text)
         const isAccess = !isCommand || isPublic
-
-        console.log({
-            allowedIds: this.allowedChatIds,
-            chatId: Math.abs(message.chat.id),
-            isCommand,
-            isPublic,
-            allowed: this.allowedChatIds.includes(Math.abs(message.chat.id))
-        })
 
         if (isAccess) {
             return true

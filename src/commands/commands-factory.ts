@@ -4,16 +4,20 @@ import {PickCommand} from './pick'
 import {IProvisioningService, ProvisioningService} from "../services";
 import {Checkiq} from "./checkiq";
 import {Cooling} from "./cooling";
+import {SimpleCommands} from './simpleCommands'
 
 export class CommandsFactory implements ICommandsFactory {
     private readonly commands: ICommand[]
     private readonly provisioningService: IProvisioningService
 
     constructor(private readonly bot: BotPort) {
+        const simpleCommands = new SimpleCommands(this.bot).commands
+
         this.commands = [
             new PickCommand(this.bot),
             new Checkiq(this.bot),
-            new Cooling(this.bot)
+            new Cooling(this.bot),
+            ...simpleCommands,
         ]
 
         this.provisioningService = ProvisioningService

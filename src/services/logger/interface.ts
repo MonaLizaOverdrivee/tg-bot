@@ -1,5 +1,5 @@
 export interface ILogger {
-    error: (message: string) => void
+    error: (message: any) => void
     info: (message: any) => void
     warning: (message: string) => void
 }

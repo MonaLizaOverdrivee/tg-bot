@@ -18,15 +18,15 @@ export class Logger implements ILogger{
         })
     }
 
-    public error(message: string): void {
+    public error(message: any): void {
         this.logger.error(message)
     }
 
-    info(message: any): void {
+    public info(message: any): void {
         this.logger.info(message)
     }
 
-    warning(message: string): void {
+    public warning(message: string): void {
         this.logger.warn(message)
     }
 }
