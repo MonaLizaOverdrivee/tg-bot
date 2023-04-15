@@ -43,5 +43,5 @@ jobs:
           host: ${{ env.HOST }}
           username: root
           script: |
-            cd /home
+            cd /home/unmannered-bot
             ls -l
