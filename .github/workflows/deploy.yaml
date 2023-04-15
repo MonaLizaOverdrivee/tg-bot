@@ -30,7 +30,7 @@ jobs:
           docker-compose push
       - name: Set SSH
         uses: shimataro/ssh-key-action@v2
-        withs:
+        with:
           key: ${{ env.SSH_KEY }}
           known_hosts: ${{ env.HOST }}
       - name: rsync
