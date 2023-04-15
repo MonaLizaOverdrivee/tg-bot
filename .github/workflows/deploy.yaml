@@ -37,3 +37,5 @@ jobs:
         run: ssh-keyscan -H ${{ env.HOST }} >> ~/.ssh/known_hosts
       - name: rsync
         run: rsync docker-compose.yml root@${{ env.HOST }}:/home/unmannered-bot/
+      - name: LS
+        run: ssh root@${{ env.HOST }} && ls -l
