@@ -38,4 +38,10 @@ jobs:
       - name: rsync
         run: rsync docker-compose.yml root@${{ env.HOST }}:/home/unmannered-bot/
       - name: LS
-        run: ssh root@${{ env.HOST }} && ls -l
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.HOST }}
+          username: root
+        script: |
+          cd /home
+          ls -l
