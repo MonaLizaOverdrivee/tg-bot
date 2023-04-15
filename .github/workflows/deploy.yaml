@@ -33,5 +33,7 @@ jobs:
         with:
           key: ${{ env.SSH_KEY }}
           known_hosts: ${{ env.HOST }}
+      - name: scan ssh
+        run: ssh-keyscan -H ${{ env.HOST }} >> ~/.ssh/known_hosts
       - name: rsync
         run: rsync docker-compose.yml root@${{ env.HOST }}:/home/unmannered-bot/
