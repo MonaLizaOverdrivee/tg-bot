@@ -45,6 +45,7 @@ export class CommandsAccessMiddleware implements Middleware{
                     type: 'access',
                     allowedIds: this.allowedChatIds,
                     chatId: context?.chat?.id,
+                    username: context?.from?.username,
                 }})
 
             await context.reply('пошел нахуй, нет такой команды')

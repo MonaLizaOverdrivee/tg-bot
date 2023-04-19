@@ -32,7 +32,7 @@ export class Bot {
         }
 
         const release = '*Release:* 1.0!'
-        const lastUpdate = '*Last update*: \n - Добавлена команда /bazaj - выдать базу по жк \n - Теперь бот доступен 24/7'
+        const lastUpdate = '*Last update*: \n - Добавлена команда /bazaj - выдать базу по жк \n - Бот перенесен на хостинг теперь он доступен 24/7'
         const commandsDescription = `*Commands*:\n${this.commandsService.getCommands().map(({name, description}) =>  `/${name} - ${description}`).join('\n')}`
 
         this.bot.help((ctx) => {
@@ -67,7 +67,7 @@ export class Bot {
 
         await this.addCommandsDescription()
 
-        await this.bot.launch()
+        await this.bot.launch({})
 
         console.log('[tg-bot] Server success started!')
     }

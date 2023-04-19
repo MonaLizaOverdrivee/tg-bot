@@ -37,7 +37,7 @@ jobs:
         run: ssh-keyscan -H ${{ env.HOST }} >> ~/.ssh/known_hosts
       - name: rsync
         run: rsync docker-compose.yml root@${{ env.HOST }}:/home/unmannered-bot/
-      - name: LS
+      - name: Deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.HOST }}

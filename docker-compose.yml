@@ -3,6 +3,7 @@ version: '3.8'
 services:
   tg-bot:
     container_name: tg-bot
+    restart: always
     image: ghcr.io/monalizaoverdrivee/unmannered-bot/unmannered-bot:prod
     build:
       context: ./

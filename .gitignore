@@ -3,4 +3,3 @@ node_modules
 .env
 /src/provisioning/local.commands.ts
 /dist/
-/.github/workflows/draft.yaml
