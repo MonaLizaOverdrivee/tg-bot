@@ -5,6 +5,8 @@ services:
     container_name: tg-bot
     restart: always
     image: ghcr.io/monalizaoverdrivee/unmannered-bot/unmannered-bot:prod
+    ports:
+      - "3000:80"
     build:
       context: ./
       dockerfile: ./Dockerfile
