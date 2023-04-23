@@ -4,7 +4,7 @@ import {PickCommand} from './pick'
 import {IProvisioningService, ProvisioningService} from "../services";
 import {Checkiq} from "./checkiq";
 import {Cooling} from "./cooling";
-import {SimpleCommands} from './simpleCommands'
+import {SimpleCommands} from './simple-commands'
 
 export class CommandsFactory implements ICommandsFactory {
     private readonly commands: ICommand[]

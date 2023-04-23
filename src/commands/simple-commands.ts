@@ -27,6 +27,12 @@ export class SimpleCommands {
             description: 'Рассовая проверка',
             type: 'private',
         },
+        {
+            initCommand: () => this.replyAnimation('bazac', 'https://media.tenor.com/2Afe8dsKRX0AAAAC/cats-cat.gif', '@DrittesRe1ch котомамаша разбушевалась!'),
+            name: 'bazac',
+            description: 'База по чепе',
+            type: 'private',
+        },
     ]
 
     constructor(private readonly bot: BotPort) {}
