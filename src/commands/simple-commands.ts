@@ -4,7 +4,7 @@ import {BotPort} from '../ports'
 export class SimpleCommands {
     public commands: ICommand[] = [
         {
-            initCommand: () => this.replyAnimation('bazaj', 'https://fotosbor.com/files/2019/10/IMGGIF15722968817Lk71m/1572296881vhO9RI.gif', '@Chayula  зачилься сись'),
+            initCommand: () => this.replyAnimation('bazaj', 'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOThnczZ6enp1YWU0NzBieWIxYWg1czN6ZXo5ZTBwdG1xcDRqMnh4bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lmeh2XGMCbCdW/giphy.gif', '@Chayula  зачилься сись'),
             name: 'bazaj',
             description: 'Выдать базу по жк',
             type: 'private',
