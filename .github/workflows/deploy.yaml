@@ -27,7 +27,7 @@ jobs:
           docker compose build --build-arg BOT_TOKEN=$BOT_TOKEN
       - name: Push image
         run: |
-          docker-compose push
+          docker compose push
       - name: Set SSH
         uses: shimataro/ssh-key-action@v2
         with:
