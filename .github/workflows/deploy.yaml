@@ -24,7 +24,7 @@ jobs:
           password: ${{ env.DOCKER_PASSWORD }}
       - name: Build container
         run: |
-          docker-compose build --build-arg BOT_TOKEN=$BOT_TOKEN
+          docker compose build --build-arg BOT_TOKEN=$BOT_TOKEN
       - name: Push image
         run: |
           docker-compose push
