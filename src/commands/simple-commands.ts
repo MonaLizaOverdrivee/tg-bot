@@ -16,7 +16,7 @@ export class SimpleCommands {
             type: 'private',
         },
         {
-            initCommand: () => this.replyText('bazat', 'Ткачепч жидохохол'),
+            initCommand: () => this.replyAnimation('bazat', 'https://tenor.com/ru/view/speech-bubble-gif-27609617', 'Бойчики ❤️'),
             name: 'bazat',
             description: 'выдать базу по ткачепчу',
             type: 'private',
